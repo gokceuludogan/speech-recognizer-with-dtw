@@ -39,6 +39,7 @@ def local_distance(v1, v2, ord=2):
 	return np.linalg.norm(v1-v2, ord=ord)
 
 def dtw_distance(template, test):
+	'''Returns distance between given template and test with dynamic time warping'''
 	col = template.shape[0]
 	row = test.shape[0]
 	distance = np.zeros((row, col))
@@ -55,6 +56,7 @@ def dtw_distance(template, test):
 	return distance[row-1,col-1]
 
 def find_nearest_neighbor(test, templates):
+	'''Returns nearest template to test from given templates'''
 	minD = dtw_distance(get_mfc_file(templates[0][1]), test)
 	minI = 0
 	command = templates[0][2]
@@ -67,6 +69,7 @@ def find_nearest_neighbor(test, templates):
 	return minD, minI, command
 
 def predict_commands(test_instances, train_instances, output_file_name):
+	'''Finds the closest train instance to each test instance and writes the predictions to output file'''
 	prediction_writer = open( output_file_name, 'w', encoding='utf-8')
 	predictions = {}
 	for test_instance in test_instances:
